@@ -4,6 +4,9 @@ namespace final_project_backend.Models.request;
 
 public class UpdateServiceRequest
 {
+    [Required]
+    public Guid Id { get; set; }
+
     [MaxLength(200)]
     public string? Name { get; set; }
 

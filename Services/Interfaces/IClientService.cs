@@ -8,5 +8,5 @@ public interface IClientService
     Task<ClientListResponse> GetAllAsync();
     Task<ClientResponse> GetByIdAsync(Guid id);
     Task<ClientResponse> CreateAsync(CreateClientRequest request);
-    Task<ClientResponse> UpdateAsync(Guid id, UpdateClientRequest request);
+    Task<ClientResponse> UpdateAsync(UpdateClientRequest request);
 }
