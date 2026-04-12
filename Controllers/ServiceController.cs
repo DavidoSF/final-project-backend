@@ -58,45 +58,45 @@ public class ServiceController : ControllerBase
     }
 
     /// <summary>
-    /// Updates an existing service. Requires Admin role.
+    /// Updates an existing service. Id must be provided in the request body. Requires Admin role.
     /// </summary>
-    [HttpPut("{id:guid}")]
+    [HttpPut]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateServiceRequest request)
+    public async Task<IActionResult> Update([FromBody] UpdateServiceRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _serviceService.UpdateAsync(id, request);
+        var result = await _serviceService.UpdateAsync(request);
         return StatusCode(result.StatusCode, result);
     }
 
     /// <summary>
-    /// Deletes a service by its ID. Requires Admin role.
+    /// Deletes a service. Id must be provided in the request body. Requires Admin role.
     /// </summary>
-    [HttpDelete("{id:guid}")]
+    [HttpDelete]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(CommonResponseModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete([FromBody] ServiceIdRequest request)
     {
-        var result = await _serviceService.DeleteAsync(id);
+        var result = await _serviceService.DeleteAsync(request);
         return StatusCode(result.StatusCode, result);
     }
 
     /// <summary>
-    /// Toggles the active/inactive status of a service. Requires Admin role.
+    /// Toggles the active/inactive status of a service. Id must be provided in the request body. Requires Admin role.
     /// </summary>
-    [HttpPatch("{id:guid}/toggle-active")]
+    [HttpPatch("toggle-active")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ToggleActive(Guid id)
+    public async Task<IActionResult> ToggleActive([FromBody] ServiceIdRequest request)
     {
-        var result = await _serviceService.ToggleActiveAsync(id);
+        var result = await _serviceService.ToggleActiveAsync(request);
         return StatusCode(result.StatusCode, result);
     }
 }

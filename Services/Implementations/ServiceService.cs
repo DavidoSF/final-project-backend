@@ -70,9 +70,9 @@ public class ServiceService : IServiceService
         };
     }
 
-    public async Task<ServiceResponse> UpdateAsync(Guid id, UpdateServiceRequest request)
+    public async Task<ServiceResponse> UpdateAsync(UpdateServiceRequest request)
     {
-        var existing = await _repo.GetByIdAsync(id);
+        var existing = await _repo.GetByIdAsync(request.Id);
         if (existing is null)
             return new ServiceResponse
             {
@@ -89,7 +89,7 @@ public class ServiceService : IServiceService
             DurationInMinutes = request.DurationInMinutes ?? existing.DurationInMinutes
         };
 
-        var updated = await _repo.UpdateAsync(id, patch);
+        var updated = await _repo.UpdateAsync(request.Id, patch);
         return new ServiceResponse
         {
             Success = true,
@@ -99,9 +99,9 @@ public class ServiceService : IServiceService
         };
     }
 
-    public async Task<CommonResponseModel> DeleteAsync(Guid id)
+    public async Task<CommonResponseModel> DeleteAsync(ServiceIdRequest request)
     {
-        var deleted = await _repo.DeleteAsync(id);
+        var deleted = await _repo.DeleteAsync(request.Id);
         if (!deleted)
             return new CommonResponseModel
             {
@@ -118,9 +118,9 @@ public class ServiceService : IServiceService
         };
     }
 
-    public async Task<ServiceResponse> ToggleActiveAsync(Guid id)
+    public async Task<ServiceResponse> ToggleActiveAsync(ServiceIdRequest request)
     {
-        var toggled = await _repo.ToggleActiveAsync(id);
+        var toggled = await _repo.ToggleActiveAsync(request.Id);
         if (toggled is null)
             return new ServiceResponse
             {

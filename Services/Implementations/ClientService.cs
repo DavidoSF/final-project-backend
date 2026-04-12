@@ -77,9 +77,9 @@ public class ClientService : IClientService
         };
     }
 
-    public async Task<ClientResponse> UpdateAsync(Guid id, UpdateClientRequest request)
+    public async Task<ClientResponse> UpdateAsync(UpdateClientRequest request)
     {
-        var existing = await _repo.GetByIdAsync(id);
+        var existing = await _repo.GetByIdAsync(request.Id);
         if (existing is null)
             return new ClientResponse
             {
@@ -89,7 +89,7 @@ public class ClientService : IClientService
             };
 
         if (request.Email is not null && request.Email != existing.Email &&
-            await _repo.EmailExistsAsync(request.Email, excludeId: id))
+            await _repo.EmailExistsAsync(request.Email, excludeId: request.Id))
             return new ClientResponse
             {
                 Success = false,
@@ -105,7 +105,7 @@ public class ClientService : IClientService
             CompanyName = request.CompanyName ?? existing.CompanyName
         };
 
-        var updated = await _repo.UpdateAsync(id, patch);
+        var updated = await _repo.UpdateAsync(request.Id, patch);
         return new ClientResponse
         {
             Success = true,

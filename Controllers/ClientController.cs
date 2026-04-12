@@ -59,20 +59,20 @@ public class ClientController : ControllerBase
     }
 
     /// <summary>
-    /// Updates an existing client. Requires Admin role.
+    /// Updates an existing client. Id must be provided in the request body. Requires Admin role.
     /// </summary>
-    [HttpPut("{id:guid}")]
+    [HttpPut]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ClientResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateClientRequest request)
+    public async Task<IActionResult> Update([FromBody] UpdateClientRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _clientService.UpdateAsync(id, request);
+        var result = await _clientService.UpdateAsync(request);
         return StatusCode(result.StatusCode, result);
     }
 }

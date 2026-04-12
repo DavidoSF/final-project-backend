@@ -8,7 +8,7 @@ public interface IServiceService
     Task<ServiceListResponse> GetAllAsync();
     Task<ServiceResponse> GetByIdAsync(Guid id);
     Task<ServiceResponse> CreateAsync(CreateServiceRequest request);
-    Task<ServiceResponse> UpdateAsync(Guid id, UpdateServiceRequest request);
-    Task<CommonResponseModel> DeleteAsync(Guid id);
-    Task<ServiceResponse> ToggleActiveAsync(Guid id);
+    Task<ServiceResponse> UpdateAsync(UpdateServiceRequest request);
+    Task<CommonResponseModel> DeleteAsync(ServiceIdRequest request);
+    Task<ServiceResponse> ToggleActiveAsync(ServiceIdRequest request);
 }

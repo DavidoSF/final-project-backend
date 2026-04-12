@@ -4,6 +4,9 @@ namespace final_project_backend.Models.request;
 
 public class UpdateClientRequest
 {
+    [Required]
+    public Guid Id { get; set; }
+
     [MaxLength(200)]
     public string? FullName { get; set; }
 
