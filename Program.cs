@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using final_project_backend.Data;
 using final_project_backend.Models;
 using final_project_backend.Repositories.Implementations;
@@ -45,6 +46,7 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>
@@ -56,7 +58,9 @@ builder.Services.AddCors(options =>
 });
 
 // ── Controllers / OpenAPI ─────────────────────────────────────────────────────
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen(options =>
